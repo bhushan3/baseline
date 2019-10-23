@@ -1,0 +1,59 @@
+{
+	"name": "baseline",
+	"description": "A HTML, CSS, and JavaScript framework built around the idea of a baseline grid.",
+	"version": "0.0.1",
+	"author": "Bhushan Patil",
+	"license": "MIT",
+	"main": "dist/baseline.css",
+	"homepage": "https://bhushan3.github.io/baseline",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bhushan3/baseline.git"
+	},
+	"bugs": {
+		"url": "https://github.com/bhushan3/baseline/issues"
+	},
+	"keywords": [
+		"html",
+		"css",
+		"javascript",
+		"sass",
+		"website",
+		"framework"
+	],
+	"files": [
+		"src/",
+		"dist/",
+		"README.md"
+	],
+	"scripts": {
+		"start": "gulp",
+		"build": "gulp build"
+	},
+	"dependencies": {
+		"normalize.css": "^8.0.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.6.4",
+		"@babel/preset-env": "^7.6.3",
+		"autoprefixer": "^9.6.5",
+		"browser-sync": "^2.26.7",
+		"gulp": "^4.0.2",
+		"gulp-babel": "^8.0.0",
+		"gulp-clean": "^0.4.0",
+		"gulp-clean-css": "^4.2.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-postcss": "^8.0.0",
+		"gulp-rename": "^1.4.0",
+		"gulp-sass": "^4.0.2",
+		"gulp-uglify": "^3.0.2"
+	},
+	"browserslist": [
+		"defaults"
+	],
+	"babel": {
+		"presets": [
+			"@babel/preset-env"
+		]
+	}
+}

@@ -1,7 +1,7 @@
 {
 	"name": "baseline",
 	"description": "A HTML, CSS, and JavaScript framework built around the idea of a baseline grid.",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": "Bhushan Patil",
 	"license": "MIT",
 	"main": "dist/baseline.css",

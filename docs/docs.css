@@ -1,0 +1,89 @@
+.baseline::before {
+	content: '';
+	display: block;
+	position: absolute;
+	z-index: 99999;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: auto;
+	height: inherit;
+	background-position: left top;
+	background-size: 100% var(--baseline);
+	pointer-events: none;
+}
+.baseline.baseline--full::before {
+	background-image: linear-gradient(
+		transparent calc(100% - 1px),
+		rgba(255, 0, 255, 0.5) calc(100% - 1px)
+	);
+}
+.baseline.baseline--half::before {
+	background-image: linear-gradient(
+		transparent calc(50% - 1px),
+		rgba(255, 0, 255, 0.5) calc(50% - 1px),
+		rgba(255, 0, 255, 0.5) 50%, transparent 50%,
+		transparent calc(100% - 1px),
+		rgba(255, 0, 255, 0.5) calc(100% - 1px)
+	);
+}
+.devbar {
+	position: fixed;
+	z-index: 9999999;
+	right: 0;
+	bottom: 0;
+	font-size: 12px;
+	line-height: 2;
+}
+.devbar__option {
+	display: inline-block;
+	margin-right: 3px;
+	padding: 0 12px;
+	background-color: #212121;
+	color: #FFFFFF;
+	font-weight: 500;
+	text-transform: capitalize;
+	cursor: pointer;
+}
+.debug * {
+	background-color: rgba(255, 0, 0, 0.2);
+}
+.debug * * {
+	background-color: rgba(0, 255, 0, 0.2);
+}
+.debug * * * {
+	background-color: rgba(0, 0, 255, 0.2);
+}
+.debug * * * * {
+	background-color: rgba(255, 0, 255, 0.2);
+}
+.debug * * * * * {
+	background-color: rgba(0, 255, 255, 0.2);
+}
+.debug * * * * * * {
+	background-color: rgba(255, 255, 0, 0.2);
+}
+.debug * * * * * * * {
+	background-color: rgba(255, 0, 0, 0.2);
+}
+.debug * * * * * * * * {
+	background-color: rgba(0, 255, 0, 0.2);
+}
+.debug * * * * * * * * * {
+	background-color: rgba(0, 0, 255, 0.2);
+}
+body > .container {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: var(--baseline);
+}
+nav, section, header, article {
+	margin-bottom: var(--baseline);
+}
+article > header {
+	margin-bottom: 0;
+}
+nav:last-child, section:last-child, header:last-child, article:last-child {
+	margin-bottom: 0;
+}

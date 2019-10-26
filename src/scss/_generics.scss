@@ -1,0 +1,22 @@
+// CSS Variables
+:root {
+	--baseline: #{baseline(1)};
+
+	--font-size-base: #{$font-size-base};
+	--line-height-base: #{$line-height-base};
+
+	--color-primary: #{color('primary')};
+	--color-background: #{color('background')};
+	--color-text-primary: #{color('text-primary')};
+	--color-text-secondary: #{color('text-secondary')};
+	--color-text-tertiary: #{color('text-tertiary')};
+	--color-border: #{color('border')};
+}
+
+// Universal box sizing
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+// Normalize.css - Makes browsers render all elements more consistently
+@import '../../node_modules/normalize.css/normalize';

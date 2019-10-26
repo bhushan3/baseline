@@ -1,9 +1,10 @@
-var docs = {
-	dev: function() {
-		var height,
-			devBar        = document.createElement( 'div' ),
+const docs = {
+	dev() {
+		const devBar = document.createElement( 'div' ),
 			savedBaseline = localStorage.getItem( 'baseline' ),
-			savedDebug    = localStorage.getItem( 'debug' );
+			savedDebug = localStorage.getItem( 'debug' );
+
+		let height;
 
 		devBar.setAttribute( 'class', 'devbar' );
 		devBar.innerHTML += '<span class="devbar__option toggle-baseline">Baseline</span><span class="devbar__option toggle-debug">Debug</span>';
@@ -44,7 +45,7 @@ var docs = {
 				document.body.classList.add( 'baseline--full' );
 				localStorage.setItem( 'baseline', 'baseline--full' );
 			}
-		});
+		} );
 		document.querySelector( '.toggle-debug' ).addEventListener( 'click', function() {
 			document.body.classList.toggle( 'debug' );
 			if ( document.body.classList.contains( 'debug' ) ) {
@@ -52,10 +53,10 @@ var docs = {
 			} else {
 				localStorage.removeItem( 'debug' );
 			}
-		});
-	}
-}
+		} );
+	},
+};
 
 document.addEventListener( 'DOMContentLoaded', function() {
 	docs.dev();
-});
+} );

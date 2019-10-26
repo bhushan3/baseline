@@ -17,10 +17,10 @@ task( 'sass', function() {
 		.pipe( sass( { outputStyle: 'expanded' } ).on( 'error', sass.logError ) )
 		.pipe( postCSS( [ autoprefixer() ] ) )
 		.pipe( dest( 'dist' ) )
+		.pipe( browserSync.stream() )
 		.pipe( cleanCSS() )
 		.pipe( rename( { extname: '.min.css' } ) )
-		.pipe( dest( 'dist' ) )
-		.pipe( browserSync.stream() );
+		.pipe( dest( 'dist' ) );
 } );
 
 // Bundle JS files.
@@ -29,10 +29,10 @@ task( 'js', function() {
 		.pipe( babel() )
 		.pipe( concat( 'baseline.js' ) )
 		.pipe( dest( 'dist' ) )
+		.pipe( browserSync.stream() )
 		.pipe( uglify() )
 		.pipe( rename( { extname: '.min.js' } ) )
-		.pipe( dest( 'dist' ) )
-		.pipe( browserSync.stream() );
+		.pipe( dest( 'dist' ) );
 } );
 
 // Watch our files reload browser on change.

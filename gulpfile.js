@@ -23,7 +23,7 @@ task( 'sass', function() {
 		.pipe( dest( 'dist' ) );
 } );
 
-// Bundle JS files.
+// Compile and bundle JS files.
 task( 'js', function() {
 	return src( 'src/js/baseline.js' )
 		.pipe( babel() )
@@ -35,7 +35,7 @@ task( 'js', function() {
 		.pipe( dest( 'dist' ) );
 } );
 
-// Watch our files reload browser on change.
+// Watch files changes and perform the task and reload the browser.
 task( 'serve', function() {
 	browserSync.init( {
 		open: true,

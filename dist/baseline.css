@@ -377,6 +377,9 @@ body {
           text-size-adjust: 100%;
   /* Enable kerning and optional ligatures */
   text-rendering: optimizeLegibility;
+  /* Make type rendering look crisper */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {

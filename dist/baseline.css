@@ -370,11 +370,6 @@ body {
   color: rgba(0, 0, 0, 0.87);
   font-family: "Roboto", "PT Sans", sans-serif;
   font-weight: 400;
-  /* Disable auto-enlargement of small text in Safari */
-  -webkit-text-size-adjust: 100%;
-     -moz-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-          text-size-adjust: 100%;
   /* Enable kerning and optional ligatures */
   text-rendering: optimizeLegibility;
   /* Make type rendering look crisper */
@@ -424,6 +419,7 @@ h1:last-child, h2:last-child, h3:last-child, h4:last-child, h5:last-child, h6:la
 }
 
 hr {
+  box-sizing: border-box;
   margin: 1.375rem 0rem;
   border: 0;
   border-top: 2px solid rgba(0, 0, 0, 0.065);
@@ -437,9 +433,7 @@ p:last-child {
   margin-bottom: 0;
 }
 
-abbr[title] {
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+abbr {
   cursor: help;
 }
 
@@ -720,7 +714,8 @@ form:last-child {
   margin-bottom: 0;
 }
 
-label[for] {
+label {
+  vertical-align: middle;
   cursor: pointer;
 }
 
@@ -834,10 +829,6 @@ input:not([type]):disabled:hover, input:not([type]):disabled:focus, input:not([t
   vertical-align: middle;
 }
 
-progress {
-  vertical-align: baseline;
-}
-
 select {
   display: inline-block;
   height: 2.25rem;
@@ -935,6 +926,7 @@ button, [type='button'], [type='reset'], [type='submit'] {
   background-color: #6200EA;
   color: rgba(255, 255, 255, 0.96);
   font-size: 1rem;
+  line-height: 1.5;
   vertical-align: middle;
   cursor: pointer;
 }
@@ -971,12 +963,7 @@ figure:last-child {
 
 img {
   max-width: 100%;
-  border-style: none;
   vertical-align: middle;
-}
-
-img:not([height]) {
-  height: auto;
 }
 
 svg {

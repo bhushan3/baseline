@@ -9,9 +9,6 @@ body {
 	font-family: $font-family-base;
 	font-weight: $font-weight-base-normal;
 
-	/* Disable auto-enlargement of small text in Safari */
-	text-size-adjust: 100%;
-
 	/* Enable kerning and optional ligatures */
 	text-rendering: optimizeLegibility;
 
@@ -53,6 +50,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 hr {
+	box-sizing: border-box;
 	margin: baseline('1:-#{$border-width-hr}' 0);
 	border: 0;
 	border-top: $border-width-hr solid color('border');
@@ -66,8 +64,7 @@ p {
 
 // Formatting
 // -----------------------------------------------------------------------------
-abbr[title] {
-	text-decoration: underline dotted;
+abbr {
 	cursor: help;
 }
 address {
@@ -230,10 +227,8 @@ form {
 	}
 }
 label {
-	// vertical-align: middle;
-	&[for] {
-		cursor: pointer;
-	}
+	vertical-align: middle;
+	cursor: pointer;
 }
 input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [type='email'], [type='month'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='time'], [type='url'], [type='week'] {
 	display: inline-block;
@@ -338,9 +333,9 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 [type='range'] {
 	vertical-align: middle;
 }
-progress {
-	vertical-align: baseline;
-}
+// progress {
+// 	vertical-align: baseline;
+// }
 select {
 	display: inline-block;
 	height: baseline($height-input);
@@ -425,7 +420,7 @@ button, [type='button'], [type='reset'], [type='submit'] {
 	background-color: color('button-background');
 	color: color-yiq(color('button-background'));
 	font-size: font-size(0);
-	// line-height: baseline($height-button);
+	line-height: $height-button;
 	vertical-align: middle; // Vertical alignment fix
 	cursor: pointer;
 	&:focus, &:hover {
@@ -458,12 +453,7 @@ figure {
 }
 img {
 	max-width: 100%;
-	// height: auto;
-	border-style: none;
 	vertical-align: middle;
-}
-img:not([height]) {
-	height: auto;
 }
 svg {
 	overflow: hidden;

@@ -8,6 +8,9 @@ body {
 	color: color('text-primary');
 	font-family: $font-family-base;
 	font-weight: $font-weight-base-normal;
+
+	/* Disable auto-enlargement of small text in Safari */
+	text-size-adjust: 100%;
 }
 h1 {
 	font-size: font-size(5);

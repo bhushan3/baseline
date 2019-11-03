@@ -370,6 +370,11 @@ body {
   color: rgba(0, 0, 0, 0.87);
   font-family: "Roboto", "PT Sans", sans-serif;
   font-weight: 400;
+  /* Disable auto-enlargement of small text in Safari */
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
 }
 
 h1 {

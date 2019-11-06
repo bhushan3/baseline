@@ -1,13 +1,24 @@
 /* stylelint-disable no-descending-specificity */
 
+// Generics
+// -----------------------------------------------------------------------------
+:root {
+	--baseline: #{baseline(1)};
+}
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+@import '../../node_modules/normalize.css/normalize';
+
 // Basic HTML
 // -----------------------------------------------------------------------------
 @include establish-baseline;
+
 body {
-	background-color: color('background');
-	color: color('text-primary');
-	font-family: $font-family-base;
-	font-weight: $font-weight-base-normal;
+	background-color: color(background);
+	color: color(text-secondary);
+	font-family: font-family(body);
 
 	/* Enable kerning and optional ligatures */
 	text-rendering: optimizeLegibility;
@@ -43,17 +54,16 @@ h6 {
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	padding: 0;
-	font-family: $font-family-heading;
-	font-weight: $font-weight-heading-bold;
+	color: color('text-primary');
+	font-family: font-family(heading);
 	&:last-child {
 		margin-bottom: 0;
 	}
 }
 hr {
-	box-sizing: border-box;
-	margin: baseline('1:-#{$border-width-hr}' 0);
+	margin: baseline('1:-#{border-width(hr)}' 0);
 	border: 0;
-	border-top: $border-width-hr solid color('border');
+	border-top: border-width(hr) solid color(border);
 }
 p {
 	margin: baseline(0 0 1);
@@ -75,19 +85,17 @@ address {
 	}
 }
 b {
-	font-weight: $font-weight-base-bold;
+	font-weight: font-weight(body-bold);
 }
 blockquote {
 	margin: baseline(0 0 1);
 	padding: baseline(0 0 0 1);
-	border-left: $border-width-blockquote solid currentColor;
-	font-weight: $font-weight-quote-normal;
+	border-left: border-width(blockquote) solid currentColor;
 	&:last-child {
 		margin-bottom: 0;
 	}
 	cite {
 		display: block;
-		font-weight: $font-weight-base-normal;
 		&::before {
 			content: '\2014\00A0';
 		}
@@ -98,9 +106,9 @@ cite {
 }
 code {
 	margin: 0;
-	background-color: color('code-background');
-	color: color('code-text');
-	font-family: $font-family-mono;
+	// background-color: color('code-background');
+	color: color('code');
+	font-family: font-family(code);
 	font-size: font-size(-1, em);
 	word-break: break-word;
 }
@@ -111,25 +119,18 @@ ins {
 	text-decoration: underline;
 }
 kbd {
-	margin: 0 (1em / 6);
-	padding: (1em / 12) (1em / 3);
-	border-radius: $border-radius-kbd;
-	background-color: color('kbd-background');
-	color: color('kbd-text');
-	font-family: $font-family-mono;
-	font-size: font-size(-1.5, em);
+	font-family: font-family(code);
+	font-size: font-size(-1, em);
 }
 mark {
-	padding: (1em / 12) 0;
-	border-radius: $border-radius-mark;
-	background-color: color('mark-background');
-	color: color('mark-text');
+	background-color: color('mark');
+	color: inherit;
 }
 pre {
 	display: block;
 	margin: baseline(0 0 1);
 	overflow: auto; // Don't allow content to break outside
-	font-family: $font-family-mono;
+	font-family: font-family(code);
 	font-size: font-size(-1, em);
 	// line-height: baseline(1);
 	line-height: inherit;
@@ -153,14 +154,14 @@ q {
 	}
 }
 samp {
-	font-family: $font-family-mono;
+	font-family: font-family(code);
 	font-size: font-size(-1, em);
 }
 small {
 	font-size: font-size(-1, em);
 }
 strong {
-	font-weight: $font-weight-base-bold;
+	font-weight: font-weight(body-bold);
 }
 sub {
 	font-size: font-size(-1, em);
@@ -172,14 +173,14 @@ sup {
 // 	text-decoration: underline;
 // }
 var {
-	font-family: $font-family-mono;
+	font-family: font-family(code);
 	font-size: font-size(-1, em);
 }
 
 // Forms and Input
 // -----------------------------------------------------------------------------
 ::placeholder {
-	transition: color $transition-timing $transition-function;
+	transition: color duration(base) easing(base);
 	opacity: 1; // Override Firefox's unusual default opacity
 	color: color('input-placeholder');
 }
@@ -212,9 +213,9 @@ legend {
 	display: block;
 	margin: baseline(0 0 1);
 	padding: 0;
-	font-family: $font-family-heading;
+	font-family: font-family(heading);
 	font-size: font-size(1);
-	font-weight: $font-weight-heading-bold;
+	font-weight: font-weight(heading-bold);
 	line-height: baseline(1);
 	&:last-child {
 		margin-bottom: 0;
@@ -232,16 +233,16 @@ label {
 }
 input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [type='email'], [type='month'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='time'], [type='url'], [type='week'] {
 	display: inline-block;
-	height: baseline($height-input);
-	padding: baseline(0 $height-input / 3);
-	transition: border-color $transition-timing $transition-function, background-color $transition-timing $transition-function, color $transition-timing $transition-function;
-	border: $border-width-input solid color('input-border');
-	border-radius: $border-radius-input;
+	height: baseline(height(input));
+	padding: baseline(0 height(input) / 3);
+	transition: border-color duration(base) easing(base), background-color duration(base) easing(base), color duration(base) easing(base);
+	border: border-width(input) solid color('input-border');
+	border-radius: border-radius(input);
 	background-clip: padding-box;
 	background-color: color('input-background');
 	color: color('input-text');
 	font-size: font-size(0);
-	line-height: baseline('#{$height-input}:#{-$border-width-input * 2}');
+	line-height: baseline('#{height(input)}:-#{border-width(input) * 2}');
 	vertical-align: middle; // Vertical alignment fix
 	caret-color: color('primary');
 	&:hover {
@@ -254,7 +255,7 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 		background-color: color('input-focus-background');
 		color: color('input-focus-text');
 	}
-	&:disabled, &[readonly] {
+	&:disabled {
 		border-color: color('input-disabled-border');
 		background-color: color('input-disabled-background');
 		color: color('input-disabled-text');
@@ -268,9 +269,9 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 }
 [type='date'], [type='datetime-local'], [type='month'], [type='number'], [type='time'], [type='week'], [list] {
 	&::-webkit-clear-button {
-		width: baseline($height-input);
+		width: baseline(height(input));
 		height: 100%;
-		margin-left: baseline($height-input / 4);
+		margin-left: baseline(height(input) / 4);
 		background-image: svg-uri('<svg fill="#{color('text-primary')}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
 		background-repeat: no-repeat;
 		background-position: center;
@@ -283,7 +284,7 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 		margin-left: 0;
 	}
 	&::-webkit-calendar-picker-indicator {
-		width: baseline($height-input / 1.5);
+		width: baseline(height(input) / 1.5);
 		height: 100%;
 		padding: 0;
 		background-color: color('input-border');
@@ -300,12 +301,12 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 }
 [type='color'] {
 	display: block;
-	width: baseline($height-input);
-	height: baseline($height-input);
+	width: baseline(height(input));
+	height: baseline(height(input));
 	margin: 0;
 	padding: 0;
-	transition: border-color $transition-timing $transition-function, background-color $transition-timing $transition-function, color $transition-timing $transition-function;
-	border: $border-width-input solid color('input-border');
+	transition: border-color duration(base) easing(base), background-color duration(base) easing(base), color duration(base) easing(base);
+	border: border-width(input) solid color('input-border');
 	background-color: color('input-background');
 	&:disabled, &[readonly] {
 		border-color: color('input-disabled-border');
@@ -338,15 +339,15 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 // }
 select {
 	display: inline-block;
-	height: baseline($height-input);
-	padding: baseline(0 $height-input / 1.5 0 $height-input / 3);
-	transition: border-color $transition-timing $transition-function, background-color $transition-timing $transition-function, color $transition-timing $transition-function;
-	border: $border-width-input solid color('input-border');
-	border-radius: $border-radius-input;
+	height: baseline(height(input));
+	padding: baseline(0 height(input) / 1.5 0 height(input) / 3);
+	transition: border-color duration(base) easing(base), background-color duration(base) easing(base), color duration(base) easing(base);
+	border: border-width(input) solid color('input-border');
+	border-radius: border-radius(input);
 	background-clip: padding-box;
 	background-color: color('input-background');
 	color: color('input-text');
-	line-height: baseline('#{$height-input}:#{-$border-width-input * 2}');
+	line-height: baseline('#{height(input)}:-#{border-width(input) * 2}');
 	&:disabled, &[readonly] {
 		border-color: color('input-disabled-border');
 		background-color: color('input-disabled-background');
@@ -366,7 +367,7 @@ select {
 	@supports (appearance: none) {
 		background-image: svg-uri('<svg fill="#{color('text-primary')}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/><path d="M0-.75h24v24H0z" fill="none"/></svg>');
 		background-repeat: no-repeat;
-		background-position: baseline(right ($height-input / 3) center);
+		background-position: baseline(right (height(input) / 3) center);
 		background-size: 1em 1em;
 		appearance: none;
 	}
@@ -374,7 +375,7 @@ select {
 		height: auto;
 		padding: 0;
 		option {
-			padding: baseline($height-input / 6 $height-input / 3);
+			padding: baseline(height(input) / 6 height(input) / 3);
 		}
 		@supports (appearance: none) {
 			background-image: none;
@@ -383,11 +384,11 @@ select {
 }
 textarea {
 	display: inline-block;
-	height: baseline($height-input * 2);
-	padding: baseline($height-input / 4.5 $height-input / 3);
-	transition: border-color $transition-timing $transition-function, background-color $transition-timing $transition-function, color $transition-timing $transition-function;
-	border: $border-width-input solid color('input-border');
-	border-radius: $border-radius-input;
+	height: baseline(height(input) * 2);
+	padding: baseline(height(input) / 4.5 height(input) / 3);
+	transition: border-color duration(base) easing(base), background-color duration(base) easing(base), color duration(base) easing(base);
+	border: border-width(input) solid color('input-border');
+	border-radius: border-radius(input);
 	background-clip: padding-box;
 	background-color: color('input-background');
 	color: color('input-text');
@@ -412,15 +413,15 @@ textarea {
 	}
 }
 button, [type='button'], [type='reset'], [type='submit'] {
-	height: baseline($height-button);
-	padding: baseline(0 $height-button / 2);
-	transition: border-color $transition-timing $transition-function, background-color $transition-timing $transition-function, color $transition-timing $transition-function;
+	height: baseline(height(button));
+	padding: baseline(0 height(button) / 2);
+	transition: border-color duration(base) easing(base), background-color duration(base) easing(base), color duration(base) easing(base);
 	border: 0;
-	border-radius: $border-radius-button;
+	border-radius: border-radius(button);
 	background-color: color('button-background');
-	color: color-yiq(color('button-background'));
+	color: color('button-text');
 	font-size: font-size(0);
-	line-height: $height-button;
+	line-height: height(button);
 	vertical-align: middle; // Vertical alignment fix
 	cursor: pointer;
 	&:focus, &:hover {
@@ -487,7 +488,7 @@ dl {
 	}
 }
 dt {
-	font-weight: $font-weight-base-bold;
+	font-weight: font-weight(body-bold);
 }
 dd {
 	margin: baseline(0 0 1);
@@ -520,7 +521,7 @@ table {
 }
 td, th {
 	padding: baseline(0.25);
-	border-top: $border-width-td solid color('border');
+	border-top: border-width(td) solid color('border');
 	vertical-align: top;
 	&:first-child {
 		padding-left: 0;
@@ -533,7 +534,7 @@ th {
 	text-align: inherit;
 	thead & {
 		padding-bottom: baseline(0.25);
-		border-bottom: $border-width-th solid color('border');
+		border-bottom: border-width(th) solid color('border');
 		vertical-align: bottom;
 	}
 }
@@ -547,7 +548,8 @@ caption {
 // Programming and Frames
 // -----------------------------------------------------------------------------
 iframe {
-	border: $border-width-iframe solid color('border');
+	border: border-width(iframe) solid color('border');
+	border-radius: border-radius(iframe);
 }
 embed, iframe, object {
 	max-width: 100%; // Make sure embeds and iframes fit their containers.

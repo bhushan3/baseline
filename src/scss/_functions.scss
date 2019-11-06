@@ -1,121 +1,5 @@
-// Retrieve color maps.
-//
-// @param {String} $key
-//
-@function color($key: 'primary') {
-	@return map-get($colors, $key);
-}
-@function color-contrasted($key: 'primary') {
-	$color-contrasted: map-get($colors-contrasted, $key);
-	@if ( $color-contrasted != null ) {
-		@return $color-contrasted;
-	}
-	@return map-get($colors, $key);
-}
-@function gray($key: '100') {
-	@return map-get($grays, $key);
-}
-@function rgba-black($key: '100') {
-	@return map-get($rgba-blacks, $key);
-}
-@function rgba-white($key: '100') {
-	@return map-get($rgba-whites, $key);
-}
-
-// Request a theme color level
-//
-// @param {String} $key
-//
-@function color-level($color: 'primary', $level: 0) {
-	@if type-of($color) != color {
-		$color: color($color);
-	}
-	$base: if($level > 0, #000000, #FFFFFF);
-	$level: abs($level);
-	$weight: $level * 5%;
-	@if ($weight > 100%) {
-		$weight: 100%;
-	}
-	@return mix($base, $color, $weight);
-}
-@function color-contrasted-level($color: 'primary', $level: 0) {
-	@if type-of($color) != color {
-		$color: color-contrasted($color);
-	}
-	$base: if($level > 0, #000000, #FFFFFF);
-	$level: abs($level);
-	$weight: $level * 5%;
-	@if ($weight > 100%) {
-		$weight: 100%;
-	}
-	@return mix($base, $color, $weight);
-}
-
-// Color contrast.
-//
-// @param {Color} $color
-//
-@function color-yiq($color) {
-	$r: red($color);
-	$g: green($color);
-	$b: blue($color);
-
-	$yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
-
-	@if ($yiq >= 150) {
-		@return map-get($colors, 'text-primary');
-	} @else {
-		@return map-get($colors-contrasted, 'text-primary');
-	}
-}
-
-// Use an SVG inline in CSS.
-//
-// @param {String} $svg
-//  SVG image to encode
-//
-// @return {String}
-//  Encoded SVG data uri
-//
-@function svg-uri($svg) {
-	$encoded: '';
-	$slice: 2000;
-	$index: 0;
-	$loops: ceil(str-length($svg) / $slice);
-	@for $i from 1 through $loops {
-		$chunk: str-slice($svg, $index, $index + $slice - 1);
-		$chunk: str-replace($chunk, '\'', '"');
-		$chunk: str-replace($chunk, '<', '%3C');
-		$chunk: str-replace($chunk, '>', '%3E');
-		$chunk: str-replace($chunk, '&', '%26');
-		$chunk: str-replace($chunk, '#', '%23');
-		$encoded: #{$encoded}#{$chunk};
-		$index: $index + $slice;
-	}
-	@return url('data:image/svg+xml;charset=utf8,#{$encoded}');
-}
-
-// Replace $search with $replace in $string.
-//
-// @param {String} $string
-//  Initial string
-//
-// @param {String} $search
-//  Substring to replace
-//
-// @param {String} $replace
-//  ('') - New value
-//
-// @return {String}
-//  Updated string
-//
-@function str-replace($string, $search, $replace: '') {
-	$index: str-index($string, $search);
-	@if $index {
-		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-	}
-	@return $string;
-}
+// Utilities
+// -----------------------------------------------------------------------------
 
 // Convert any CSS <length> or <percentage> value to any another.
 //
@@ -216,6 +100,42 @@
 	}
 
 	@return $output-length;
+}
+
+// Returns the value in rem for a given value.
+//
+// @param {Number} $value
+//  The value to be converted.
+//
+// @return {Number}
+//  The converted value in rem.
+//
+@function rem($value, $from-context: 16px) {
+	@return convert-length($value, 'rem');
+}
+
+// Returns the value in px for a given value.
+//
+// @param {Number} $value
+//  The value to be converted.
+//
+// @return {Number}
+//  The converted value in px.
+//
+@function px($value) {
+	@return convert-length($value, 'px');
+}
+
+// Returns the value in em for a given value.
+//
+// @param {Number} $value
+//  The value to be converted.
+//
+// @return {Number}
+//  The converted value in em.
+//
+@function em($value) {
+	@return convert-length($value, 'em');
 }
 
 // Convert string to number if string is valid CSS <length>.
@@ -330,120 +250,117 @@
 	@warn 'Invalid unit "#{$unit}".';
 }
 
-// Returns font size based on modular type scale.
+// Returns the list of available names in a given map.
 //
-// @param {Number} $font-size
-//  Step to use in calculation
+// @param {Map} $map
+//  The map of data to list the names from.
 //
-// @param {String} $unit
-//  Unit in which value should be return
+// @param {Number} $map
+//  The level of depth to get names from.
 //
-// @param {Number} $from-context
-//  When converting from relative units, the absolute length (in px) to
-//  which $font-size refers (e.g. for $font-sizes in em units, would
-//  normally be the font-size of the current element).
+// @return {String}
+//  The list of names in the map.
 //
-// @param {String|false} $round-function
-//  Round function to use.
-//
-@function font-size($font-size: 0, $unit: rem, $from-context: 0, $round-function: false) {
+@function available-names($map, $level: 1) {
+	@if type-of($map) != 'map' {
+		@return null;
+	}
 
-	@if unit($font-size) != number and unitless($font-size) == false {
-		@warn 'Paremeter "$font-size #{$font-size}" must resolve to a unitless number.';
+	$output: '';
+	$newline: '\A ';
+
+	@if $level == 1 {
+		@each $key, $value in $map {
+			$output: $output + '#{$newline}- #{$key} #{available-names($value, $level + 1)}';
+		}
 	} @else {
-		$font-size: pow($type-scale-ratio, $font-size) * $font-size-base;
-	}
+		$output: '(';
+		$i: 1;
 
-	@if unit($from-context) != number and unitless($from-context) == false {
-		@warn 'Paremeter "$from-context #{$from-context}" must resolve to a unitless number.';
-	} @else {
-		$from-context: pow($type-scale-ratio, $from-context) * $font-size-base;
-	}
+		@each $key, $value in $map {
+			$sep: if($i < length($map), ', ', '');
+			$output: $output + '#{$key}#{$sep}#{available-names($value, $level + 1)}';
+			$i: $i + 1;
+		}
 
-	@if $round-function == round {
-		// Round a number to the nearest whole number.
-		$font-size: round($font-size);
-		$from-context: round($from-context);
-	} @else if $round-function == ceil {
-		// Round a number up to the next whole number.
-		$font-size: ceil($font-size);
-		$from-context: ceil($from-context);
-	} @else if $round-function == floor {
-		// Round a number down to the previous whole number.
-		$font-size: floor($font-size);
-		$from-context: floor($from-context);
+		$output: $output + ')';
 	}
-
-	@return convert-length($font-size, $unit, $from-context);
+	@return $output;
 }
 
-// Returns baseline (vertical rhythm) values.
+// Merge multiple maps into one.
 //
-// @param {Number} $lines
+// @param {Map} $map
+//  Initial default map.
 //
-// @param {String} $unit
-//  Unit in which value should be return
+// @param {ArgList} $maps
+//  Other maps to merge.
 //
-// @param {Number} $from-context
-//  When converting from relative units, the absolute length (in px) to
-//  which $font-size refers (e.g. for $font-sizes in em units, would
-//  normally be the font-size of the current element).
+// @return {Map}
+//  The final merged map.
 //
-// @param {Boolean} $unitless-zero
-//  Wheather return unitless zero values or zero with the default unit
-//
-@function baseline($lines: 1, $unit: rem, $from-context: 0, $unitless-zero: false) {
-
-	$from-context: font-size($from-context, px);
-
-	$return: ();
-
-	@each $line in $lines {
-
-		$to-join: $line;
-
-		@if type-of($line) == number and unitless($line) {
-
-			$value: $line * $line-height-base;
-			$to-join: convert-length($value, $unit, $from-context);
-
-		} @else if type-of($line) == string and str-index($line, ':') {
-
-			$l: str-slice($line, 1, str-index($line, ':') - 1);
-			$l: to-number($l);
-
-			$o: str-slice($line, str-index($line, ':') + 1);
-			$o: to-number($o);
-
-			$value: 0;
-
-			@if type-of($l) == number and unitless($l) {
-
-				$value: $l * $line-height-base;
-				$value: convert-length($value, $unit, $from-context);
-
-			} @else {
-				$value: convert-length($l, $unit, $from-context);
+@function map-extend($map, $maps...) {
+	@for $i from 1 through length($maps) {
+		@each $key, $value in nth($maps, $i) {
+			$map: map-merge(
+				$map,
+				(
+					$key: $value,
+				)
+			);
+			@if (type-of($value) == map) and (type-of(map-get($map, $key)) == map) {
+				$value: map-extend(map-get($map, $key), $value);
 			}
-
-			$offset: convert-length($o, $unit, $from-context);
-
-			$to-join: $value + $offset;
-		}
-
-		@if $unitless-zero and number == type-of($to-join) and 0 == $to-join {
-			$return: join($return, 0);
-		} @else {
-			$return: join($return, $to-join);
 		}
 	}
+	@return $map;
+}
 
-	// Return a calulated single value or list of values.
-	@if length($return) == 1 {
-		@return nth($return, 1);
+// Fetch nested keys
+//
+// @param {Map} $map
+//  Map
+//
+// @param {Arglist} $keys
+//  Keys to fetch
+//
+// @return {*}
+//
+@function map-deep-get($map, $keys...) {
+	@each $key in $keys {
+		$map: map-get($map, $key);
 	}
+	@return $map;
+}
 
-	@return $return;
+// Update a key deeply nested
+//
+// @param {Map} $map
+//  Map to update
+//
+// @param {Arglist} $keys
+//  Keys to access to value to update
+//
+// @param {*} $value
+//  New value (last member of `$keys`)
+//
+// @return {Map}
+//  Updated map
+//
+@function map-deep-set($map, $keys.../*, $value */) {
+	$map-list: ($map,);
+	$result: null;
+
+	@if length($keys) == 2 {
+		@return map-merge($map, (nth($keys, 1): nth($keys, -1)));
+	}
+	@for $i from 1 through length($keys) - 2 {
+		$map-list: append($map-list, map-get(nth($map-list, -1), nth($keys, $i)));
+	}
+	@for $i from length($map-list) through 1 {
+		$result: map-merge(nth($map-list, $i), (nth($keys, $i): if($i == length($map-list), nth($keys, -1), $result)));
+	}
+	@return $result;
 }
 
 // Math functions require for moudlar type scale.
@@ -497,4 +414,385 @@
 		$ten-exp: $ten-exp + 1;
 	}
 	@return summation(ln-maclaurin, $value / pow(10, $ten-exp), 1, 100) + $ten-exp * $ln-ten;
+}
+
+// Typography and Baseline
+// -----------------------------------------------------------------------------
+
+// Returns font size based on modular type scale.
+//
+// @param {Number} $font-size
+//  Step to use in calculation
+//
+// @param {String} $unit
+//  Unit in which value should be return
+//
+// @param {Number} $from-context
+//  When converting from relative units, the absolute length (in px) to
+//  which $font-size refers (e.g. for $font-sizes in em units, would
+//  normally be the font-size of the current element).
+//
+// @param {String|false} $round-function
+//  Round function to use.
+//
+@function font-size($font-size: 0, $unit: rem, $from-context: 0, $round-function: false) {
+
+	@if unit($font-size) != number and unitless($font-size) == false {
+		@warn 'Paremeter "$font-size #{$font-size}" must resolve to a unitless number.';
+	} @else {
+		$font-size: pow($type-scale-ratio, $font-size) * $base-font-size;
+	}
+
+	@if unit($from-context) != number and unitless($from-context) == false {
+		@warn 'Paremeter "$from-context #{$from-context}" must resolve to a unitless number.';
+	} @else {
+		$from-context: pow($type-scale-ratio, $from-context) * $base-font-size;
+	}
+
+	@if $round-function == round {
+		// Round a number to the nearest whole number.
+		$font-size: round($font-size);
+		$from-context: round($from-context);
+	} @else if $round-function == ceil {
+		// Round a number up to the next whole number.
+		$font-size: ceil($font-size);
+		$from-context: ceil($from-context);
+	} @else if $round-function == floor {
+		// Round a number down to the previous whole number.
+		$font-size: floor($font-size);
+		$from-context: floor($from-context);
+	}
+
+	@return convert-length($font-size, $unit, $from-context);
+}
+
+// Returns baseline (vertical rhythm) values.
+//
+// @param {Number} $lines
+//
+// @param {String} $unit
+//  Unit in which value should be return
+//
+// @param {Number} $from-context
+//  When converting from relative units, the absolute length (in px) to
+//  which $font-size refers (e.g. for $font-sizes in em units, would
+//  normally be the font-size of the current element).
+//
+// @param {Boolean} $unitless-zero
+//  Wheather return unitless zero values or zero with the default unit
+//
+@function baseline($lines: 1, $unit: 'rem', $from-context: 0, $unitless-zero: false) {
+
+	$from-context: font-size($from-context, px);
+
+	$return: ();
+
+	@each $line in $lines {
+
+		$to-join: $line;
+
+		@if type-of($line) == number and unitless($line) {
+
+			$value: $line * $base-line-height;
+			$to-join: convert-length($value, $unit, $from-context);
+
+		} @else if type-of($line) == string and str-index($line, ':') {
+
+			$l: str-slice($line, 1, str-index($line, ':') - 1);
+			$l: to-number($l);
+
+			$o: str-slice($line, str-index($line, ':') + 1);
+			$o: to-number($o);
+
+			$value: 0;
+
+			@if type-of($l) == number and unitless($l) {
+
+				$value: $l * $base-line-height;
+				$value: convert-length($value, $unit, $from-context);
+
+			} @else {
+				$value: convert-length($l, $unit, $from-context);
+			}
+
+			$offset: convert-length($o, $unit, $from-context);
+
+			$to-join: $value + $offset;
+		}
+
+		@if $unitless-zero and number == type-of($to-join) and 0 == $to-join {
+			$return: join($return, 0);
+		} @else {
+			$return: join($return, $to-join);
+		}
+	}
+
+	// Return a calulated single value or list of values.
+	@if length($return) == 1 {
+		@return nth($return, 1);
+	}
+
+	@return $return;
+}
+
+// Colors
+// -----------------------------------------------------------------------------
+
+// Returns the color value for a given color name and group.
+//
+// @param {String} $color
+//  The color’s hue.
+//
+// @param {String} $variation
+//  The darkness/lightness of the color.
+//
+// @param {Color} $for-background
+//  The background color on which this color will appear. Applies a multiply
+//  filter to ensure appropriate contrast.
+//
+// @return {Color} The color value.
+//
+@function color($color, $variation: null, $for-background: null) {
+	$fetched-color: false;
+	@if map-has-key($color-data, $color) {
+		$fetched-hue: map-get($color-data, $color);
+		@if $variation == null {
+			@if $fetched-hue == null {
+				@return null;
+			} @elseif type-of($fetched-hue) == color {
+				$fetched-color: $fetched-hue;
+			} @elseif map-has-key($fetched-hue, base) {
+				$fetched-color: map-get($fetched-hue, base);
+			} @elseif map-has-key($fetched-hue, '500') {
+				$fetched-color: map-get($fetched-hue, '500');
+			}
+		} @elseif type-of($fetched-hue) == map {
+			$variation: quote($variation);
+			@if map-has-key($fetched-hue, $variation) {
+				$fetched-color: map-get($fetched-hue, $variation);
+			}
+		}
+	}
+	@if type-of($fetched-color) == color {
+		@if $for-background != null {
+			$fetched-color: color-multiply($fetched-color, $for-background);
+		}
+		@return $fetched-color;
+	} @else {
+		@error "\a Color `#{$color}#{if($variation, ' (' + $variation + ')', '')}` not found.\a\a Available options: #{available-names($color-data)}\a\a";
+	}
+}
+
+// Darkens the foreground color by the background color. This is the same as
+// the "multiply" filter in graphics apps.
+//
+// @param {Color} $foreground
+//  The color to darken.
+//
+// @param {Color} $background
+//  The background to base darkening on.
+//
+// @return {Color} The modified color.
+//
+@function color-multiply($foreground, $background: null) {
+	@if $background == null {
+		$background: rgb(255, 255, 255);
+	}
+
+	$red: red($background) * red($foreground) / 255;
+	$green: green($background) * green($foreground) / 255;
+	$blue: blue($background) * blue($foreground) / 255;
+
+	$opacity: opacity($foreground);
+	$background-opacity: opacity($background);
+
+	// Calculate opacity
+	$bm-red: $red * $opacity + red($background) * $background-opacity * (1 - $opacity);
+	$bm-green: $green * $opacity + green($background) * $background-opacity * (1 - $opacity);
+	$bm-blue: $blue * $opacity + blue($background) * $background-opacity * (1 - $opacity);
+
+	@return rgb($bm-red, $bm-green, $bm-blue);
+}
+
+// Borders
+// -----------------------------------------------------------------------------
+
+// Returns the width of the specified border type.
+//
+// @param {String} $element
+//  The border element key.
+//
+// @return {Number}
+//  The width for the border.
+//
+@function border-width($element) {
+	$fetched-value: map-get($border-width-data, $element);
+
+	@if type-of($fetched-value) == number {
+		@return $fetched-value;
+	} @else {
+		@error 'Border width element `#{$element}` not found.\a\a  Available elements: #{available-names($border-width-data)}\a\a';
+	}
+}
+
+// Returns the border radius of the specified size.
+//
+// @param {String} $size
+//  The border radius’s size.
+//
+// @return {Number}
+//  The border radius value.
+//
+@function border-radius($size) {
+	$fetched-value: map-get($border-radius-data, $size);
+
+	@if type-of($fetched-value) == number {
+		@return $fetched-value;
+	} @else {
+		@error 'Border radius size `#{$size}` not found.\a\a Available variants: #{available-names($border-radius-data)}\a\a';
+	}
+}
+
+// Height
+// -----------------------------------------------------------------------------
+
+// Returns the baseline height of the specified element.
+//
+// @param {String} $element
+//  The height’s element.
+//
+// @return {Number}
+//  The baseline height value.
+//
+@function height($element) {
+	$fetched-value: map-get($height-data, $element);
+
+	@if type-of($fetched-value) == number {
+		@return $fetched-value;
+	} @else {
+		@error 'element `#{$element}` not found.\a\a Available variants: #{available-names($height-data)}\a\a';
+	}
+}
+
+// Duration
+// -----------------------------------------------------------------------------
+
+// Returns the duration value for a given variant.
+//
+// @param {String} $variant - The key for the given variant.
+// @return {Number} The duration for the variant (in miliseconds).
+//
+@function duration($variant) {
+	$fetched-value: map-get($duration-data, $variant);
+
+	@if type-of($fetched-value) == number {
+		@return $fetched-value;
+	} @else {
+		@error 'Duration variant `#{$variant}` not found.\a\a Available variants: #{available-names($duration-data)}\a\a';
+	}
+}
+
+// Easing
+// -----------------------------------------------------------------------------
+
+// Returns the timing-function value for a given variant.
+//
+// @param {String} $variant
+//  The key for the given variant.
+//
+// @return {String}
+//  The cubic-bezier function (string) for the variant.
+//
+@function easing($variant) {
+	$fetched-value: map-get($easing-data, $variant);
+
+	@if type-of($fetched-value) == string {
+		@return $fetched-value;
+	} @else {
+		@error 'Easing variant `#{$variant}` not found.\a\a Available variants: #{available-names($easing-data)}\a\a';
+	}
+}
+
+// Shadows
+// -----------------------------------------------------------------------------
+
+// Returns the shadow for the specified depth
+//
+// @param {String} $depth
+//  The shadow’s depth.
+//
+// @return {List}
+//  The shadow value.
+//
+@function shadow($depth) {
+	$fetched-value: map-get($shadow-data, $depth);
+
+	@if type-of($fetched-value) == list {
+		@return $fetched-value;
+	} @else {
+		@error 'Shadow variant `#{$depth}` not found.\a\a Available variants: #{available-names($shadow-data)}\a\a';
+	}
+}
+
+// Typography
+// -----------------------------------------------------------------------------
+
+// Returns the font stack for a given family.
+//
+// @param {String} $family
+//  The key for the given family.
+//
+// @return {Number}
+//  The font stack for the family.
+//
+@function font-family($family) {
+	$fetched-value: map-get($font-family-data, $family);
+
+	@if $fetched-value != null {
+		@return $fetched-value;
+	} @else {
+		@error 'Font family `#{$family}` not found.\a\a Available font families: #{available-names($font-family-data)}\a\a';
+	}
+}
+
+// Returns the font weight for a given family.
+//
+// @param {String} $family
+//  The key for the given family.
+//
+// @return {Number}
+//  The font weight for the family.
+//
+@function font-weight($family) {
+	$fetched-value: map-get($font-weight-data, $family);
+
+	@if $fetched-value != null {
+		@return $fetched-value;
+	} @else {
+		@error 'Font weight `#{$family}` not found.\a\a Available font families: #{available-names($font-weight-data)}\a\a';
+	}
+}
+
+// Z-index
+// -----------------------------------------------------------------------------
+
+// Returns the z-index of the specified element.
+//
+// @param {String} $element
+//  The key for the element.
+//
+// @param {Map} $context
+//  The map in which to search for the element.
+//
+// @return {Number}
+//  The z-index for the element.
+//
+@function z-index($element) {
+	$index: map-get($z-index-data, $element);
+
+	@if $index {
+		@return $index;
+	} @else {
+		@error 'z-index `#{$element}` in `#{$z-index-data}` not found.';
+	}
 }

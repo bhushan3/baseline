@@ -4,19 +4,16 @@
  * @author Bhushan Patil
  */
 
-// Globally-available SASS variables
-@import 'variables';
-
-// Globally-available SASS functions
+// SASS functions
 @import 'functions';
 
-// Globally-available SASS mixins
+// SASS variables and maps
+@import 'variables';
+
+// SASS mixins
 @import 'mixins';
 
-// Ground zero styles
-@import 'generics';
-
-// Unclassed basic HTML elements
+// Generics and Unclassed basic HTML elements
 @import 'elements';
 
 // Design-free objects, abstractions

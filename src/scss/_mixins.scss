@@ -1,3 +1,93 @@
+// Helpers
+// -----------------------------------------------------------------------------
+
+// Utilities
+// -----------------------------------------------------------------------------
+
+// Establishes baseline by setting root element line-height. Also sets base
+// font-size.
+//
+@mixin establish-baseline {
+	html {
+		font-size: 100% * ($base-font-size / 16px);
+		line-height: px($base-line-height) / px($base-font-size);
+	}
+}
+
+// Components
+// -----------------------------------------------------------------------------
+
+@mixin button-base() {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: baseline(height(button));
+	margin: 0;
+	padding: baseline(0 height(button) / 2);
+	border: border-width(button) solid transparent;
+	border-radius: border-radius(button);
+	font-family: inherit;
+	font-size: font-size(0);
+	// font-weight: font-weight(body);
+	// line-height: baseline('#{height(button)}:-#{border-width(button) * 2}');
+	vertical-align: middle;
+	cursor: pointer;
+	&:hover {
+		text-decoration: none;
+	}
+	&:disabled, &--disabled {
+		background-color: transparent;
+		color: color('text-tertiary');
+		cursor: default;
+		pointer-events: none;
+	}
+}
+@mixin button-color-variant($background, $background-hover: color-level($background, -2), $background-active: color-level($background, 2), $text: color-yiq($background), $text-hover: $text, $text-active: $text) {
+	background-color: $background;
+	color: $text;
+	&:focus, &:hover {
+		background-color: $background-hover;
+		color: $text-hover;
+	}
+	&:active {
+		background-color: $background-active;
+		color: $text-active;
+	}
+	&.button--outlined {
+		border-color: $background;
+		background-color: transparent;
+		color: $background;
+		&:focus, &:hover {
+			border-color: transparent;
+			background-color: $background;
+			color: $text;
+		}
+		&:active {
+			border-color: transparent;
+			background-color: $background-active;
+			color: $text-active;
+		}
+	}
+	&.button--text {
+		background-color: transparent;
+		color: $background;
+		&:focus, &:hover {
+			background-color: rgba($background, 0.12);
+			color: $background;
+		}
+		&:active {
+			background-color: rgba($background, 0.26);
+			color: $background;
+		}
+	}
+}
+
+// Skins
+// -----------------------------------------------------------------------------
+
+// Layout
+// -----------------------------------------------------------------------------
+
 // Quick clearfix hack.
 //
 @mixin clearfix {
@@ -7,15 +97,5 @@
 	}
 	&::after {
 		clear: both;
-	}
-}
-
-// Establishes baseline by setting root element line-height. Also sets base
-// font-size.
-//
-@mixin establish-baseline {
-	html {
-		font-size: 100% * ($font-size-base / 16px);
-		line-height: convert-length($line-height-base, px) / convert-length($font-size-base, px);
 	}
 }

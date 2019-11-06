@@ -1,146 +1,152 @@
-// Baseline
+// Typography and Baseline
 // -----------------------------------------------------------------------------
+
 // The default font size for all text in pixels.
-$font-size-base:                        16px !default;
+$base-font-size: 16px;
 
 // The distance between text baselines (vertical rhythm) in pixels.
-$line-height-base:                      24px !default;
+$base-line-height: 24px;
 
 // Ratio for modular type scale.
-$type-scale-ratio:                      1.25 !default;
+$type-scale-ratio: 1.25;
 
-// Color system
+// Colors
 // -----------------------------------------------------------------------------
-$grays: (
-	'50':                               #FAFAFA,
-	'100':                              #F5F5F5,
-	'200':                              #EEEEEE,
-	'300':                              #E0E0E0,
-	'400':                              #BDBDBD,
-	'500':                              #9E9E9E,
-	'600':                              #757575,
-	'700':                              #616161,
-	'800':                              #424242,
-	'900':                              #212121
-) !default;
 
-$rgba-blacks: (
-	'50':                               rgba(#000000, 0.02),
-	'100':                              rgba(#000000, 0.04),
-	'200':                              rgba(#000000, 0.065),
-	'300':                              rgba(#000000, 0.12),
-	'400':                              rgba(#000000, 0.26),
-	'500':                              rgba(#000000, 0.38),
-	'600':                              rgba(#000000, 0.54),
-	'700':                              rgba(#000000, 0.62),
-	'800':                              rgba(#000000, 0.74),
-	'900':                              rgba(#000000, 0.87),
-) !default;
+@import 'color-palette';
 
-$rgba-whites: (
-	'50':                               rgba(#FFFFFF, 0.98),
-	'100':                              rgba(#FFFFFF, 0.96),
-	'200':                              rgba(#FFFFFF, 0.935),
-	'300':                              rgba(#FFFFFF, 0.88),
-	'400':                              rgba(#FFFFFF, 0.74),
-	'500':                              rgba(#FFFFFF, 0.62),
-	'600':                              rgba(#FFFFFF, 0.46),
-	'700':                              rgba(#FFFFFF, 0.38),
-	'800':                              rgba(#FFFFFF, 0.26),
-	'900':                              rgba(#FFFFFF, 0.13),
+// Add more colors to the palette
+$color-data: (
+	primary: #6200EA,
+	background: #FFFFFF,
+	border: map-get(map-get($color-palette, 'black'), '200'),
+	text-primary: map-get(map-get($color-palette, 'black'), '900'),
+	text-secondary: map-get(map-get($color-palette, 'black'), '800'),
+	text-tertiary: map-get(map-get($color-palette, 'black'), '500'),
+	link: #6200EA,
+	code: #009B8E,
+	mark: rgba(255, 255, 0, 0.62),
+
+	input-background: #FFFFFF,
+	input-text: map-get(map-get($color-palette, 'black'), '800'),
+	input-placeholder: map-get(map-get($color-palette, 'black'), '400'),
+	input-border: map-get(map-get($color-palette, 'black'), '200'),
+
+	input-hover-background: null,
+	input-hover-text: null,
+	input-hover-placeholder: map-get(map-get($color-palette, 'black'), '500'),
+	input-hover-border: map-get(map-get($color-palette, 'black'), '300'),
+
+	input-focus-background: null,
+	input-focus-text: null,
+	input-focus-placeholder: map-get(map-get($color-palette, 'black'), '600'),
+	input-focus-border: #6200EA,
+
+	input-disabled-background: null,
+	input-disabled-text: map-get(map-get($color-palette, 'black'), '400'),
+	input-disabled-placeholder: map-get(map-get($color-palette, 'black'), '400'),
+	input-disabled-border: map-get(map-get($color-palette, 'black'), '100'),
+
+	button-background: #6200EA,
+	button-text: map-get(map-get($color-palette, 'white'), '50'),
+	button-disabled-background: transparent,
+	button-disabled-text: map-get(map-get($color-palette, 'black'), '400'),
 );
 
-$colors: (
-	'primary':                          #6200EA,
-	'background':                       #FFFFFF,
-	'text-primary':                     map-get($rgba-blacks, '900'),
-	'text-secondary':                   map-get($rgba-blacks, '600'),
-	'text-tertiary':                    map-get($rgba-blacks, '400'),
-	'border':                           map-get($rgba-blacks, '200'),
-
-	'link':                             #6200EA,
-	'code-text':                        #009B8E,
-	'kbd-background':                   map-get($rgba-blacks, '200'),
-	'kbd-text':                         map-get($rgba-blacks, '900'),
-	'mark-background':                  #FFFF8D,
-	'mark-text':                        map-get($rgba-blacks, '900'),
-
-	'input-background':                 transparent,
-	'input-text':                       map-get($rgba-blacks, '900'),
-	'input-placeholder':                map-get($rgba-blacks, '500'),
-	'input-border':                     map-get($rgba-blacks, '300'),
-
-	'input-hover-background':           null,
-	'input-hover-text':                 null,
-	'input-hover-placeholder':          map-get($rgba-blacks, '600'),
-	'input-hover-border':               map-get($rgba-blacks, '400'),
-
-	'input-focus-background':           null,
-	'input-focus-text':                 null,
-	'input-focus-placeholder':          map-get($rgba-blacks, '600'),
-	'input-focus-border':               #6200EA,
-
-	'input-disabled-background':        transparent,
-	'input-disabled-text':              map-get($rgba-blacks, '400'),
-	'input-disabled-placeholder':       map-get($rgba-blacks, '400'),
-	'input-disabled-border':            map-get($rgba-blacks, '100'),
-
-	'button-background':                #6200EA,
-	'button-text':                      map-get($rgba-whites, '100'),
-	'button-disabled-background':       transparent,
-	'button-disabled-text':             map-get($rgba-blacks, '400'),
-) !default;
-
-$colors-contrasted: (
-	'background':                       map-get($rgba-blacks, '900'),
-	'text-primary':                     map-get($rgba-whites, '100'),
-	'text-secondary':                   map-get($rgba-whites, '600'),
-	'text-tertiary':                    map-get($rgba-whites, '500'),
-	'border':                           map-get($rgba-whites, '200'),
-) !default;
-
-// Fonts
+// Border
 // -----------------------------------------------------------------------------
-$font-family-base:                      'Roboto', 'PT Sans', sans-serif !default;
-$font-weight-base-normal:               400 !default;
-$font-weight-base-bold:                 700 !default;
+$border-width-data: (
+	hr: rem(2px),
+	blockquote: rem(4px),
+	td: rem(2px),
+	th: rem(4px),
+	input: rem(2px),
+	button: rem(2px),
+	iframe: rem(2px),
+);
 
-$font-family-heading:                   'Roboto', 'PT Sans', sans-serif !default;
-$font-weight-heading-normal:            400 !default;
-$font-weight-heading-bold:              700 !default;
+$border-radius-data: (
+	input: rem(4px),
+	button: rem(4px),
+	iframe: rem(4px),
+);
 
-$font-family-quote:                     'Roboto Slab', 'PT Serif', serif !default;
-$font-weight-quote-normal:              400 !default;
-$font-weight-quote-bold:                700 !default;
-
-$font-family-mono:                      'Roboto Mono', 'PT Mono', monospace !default;
-$font-weight-mono-normal:               400 !default;
-$font-weight-mono-bold:                 700 !default;
-
-// Borders widths
+// Height
 // -----------------------------------------------------------------------------
-$border-width-hr:                       2px !default;
-$border-width-blockquote:               4px !default;
-$border-width-td:                       2px !default;
-$border-width-th:                       4px !default;
-$border-width-input:                    2px !default;
-$border-width-button:                   2px !default;
-$border-width-iframe:                   2px !default;
 
-// Borders radiuses
-// -----------------------------------------------------------------------------
-$border-radius-kbd:                     4px !default;
-$border-radius-mark:                    4px !default;
-$border-radius-input:                   $border-width-input * 2 !default;
-$border-radius-button:                  $border-width-button * 2 !default;
-$border-radius-iframe:                  $border-width-iframe * 2 !default;
+$height-data: (
+	button: 1.5,
+	input: 1.5,
+);
 
-// Widths and heights in vertical rhythm lines
+// Duration
 // -----------------------------------------------------------------------------
-$height-button:                         1.5 !default;
-$height-input:                          1.5 !default;
 
-// Widths and heights in vertical rhythm lines
+$duration-data: (
+	none: 0,
+	fast: 100ms,
+	base: 200ms,
+	slow: 300ms,
+	slower: 400ms,
+	slowest: 500ms,
+);
+
+// Easing
 // -----------------------------------------------------------------------------
-$transition-timing: 0.15s;
-$transition-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+$easing-data: (
+	base: cubic-bezier(0.64, 0, 0.35, 1),
+	in: cubic-bezier(0.36, 0, 1, 1),
+	out: cubic-bezier(0, 0, 0.42, 1),
+	excite: cubic-bezier(0.18, 0.67, 0.6, 1.22),
+	overshoot: cubic-bezier(0.07, 0.28, 0.32, 1.22),
+	anticipate: cubic-bezier(0.38, -0.4, 0.88, 0.65),
+);
+
+// Shadows
+// -----------------------------------------------------------------------------
+
+$shadow-data: (
+	faint: (
+		0 1px 0 0 rgba(22, 29, 37, 0.05),
+	),
+	base: (
+		0 0 0 1px rgba(63, 63, 68, 0.05),
+		0 1px 3px 0 rgba(63, 63, 68, 0.15),
+	),
+	deep: (
+		0 0 0 1px rgba(6, 44, 82, 0.1),
+		0 2px 16px rgba(33, 43, 54, 0.08),
+	),
+	layer: (
+		0 31px 41px 0 rgba(32, 42, 53, 0.2),
+		0 2px 16px 0 rgba(32, 42, 54, 0.08),
+	),
+	transparent: 0 0 0 0 transparent,
+);
+
+// Typography
+// -----------------------------------------------------------------------------
+
+$font-family-data: (
+	body: #{'Roboto', 'PT Sans', sans-serif},
+	heading: #{'Roboto Condensed', 'PT Sans', sans-serif},
+	code: #{'Roboto Mono', 'PT Mono', monospace},
+);
+
+$font-weight-data: (
+	body: 400,
+	body-bold: 700,
+	heading: 400,
+	heading-bold: 700,
+	code: 400,
+	code-bold: 700,
+);
+
+// Z-index
+// -----------------------------------------------------------------------------
+
+$z-index-data: (
+	content: 100,
+	overlay: 400,
+);

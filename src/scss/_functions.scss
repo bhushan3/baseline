@@ -481,7 +481,7 @@
 // @param {Boolean} $unitless-zero
 //  Wheather return unitless zero values or zero with the default unit
 //
-@function baseline($lines: 1, $unit: 'rem', $from-context: 0, $unitless-zero: false) {
+@function baseline($lines: 1, $unit: rem, $from-context: 0, $unitless-zero: false) {
 
 	$from-context: font-size($from-context, px);
 
@@ -533,6 +533,30 @@
 	}
 
 	@return $return;
+}
+
+// Layout
+// -----------------------------------------------------------------------------
+
+// Get a breakpoint's width
+//
+// @param {String} $name
+//  Name of the breakpoint. One of $breakpoints-data
+//
+// @example scss
+//  $tablet-width: breakpoint(tablet);
+//  @media (min-width: breakpoint(desktop)) {}
+//
+// @requires {Variable} $breakpoint-data
+//
+// @returns {Number} Value in specified unit.
+//
+@function breakpoint($name, $unit: $media-query-unit) {
+	@if map-has-key($breakpoint-data, $name) {
+		$width: map-get($breakpoint-data, $name);
+		@return convert-length($width, $unit);
+	}
+	@error '\a Breakpoint `#{$name}` not found.\a\a Available options: #{available-names($breakpoint-data)}\a\a';
 }
 
 // Colors

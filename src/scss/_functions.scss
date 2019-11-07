@@ -538,6 +538,10 @@
 // Layout
 // -----------------------------------------------------------------------------
 
+// The length unit in which to output media query values.
+// Supported values: px, em, rem.
+$media-query-unit: em !default;
+
 // Get a breakpoint's width
 //
 // @param {String} $name

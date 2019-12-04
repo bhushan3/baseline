@@ -363,6 +363,33 @@
 	@return $result;
 }
 
+// Returns the value of the specified key from the map.
+//
+// @param {Map} $map
+//  The map in which to retrieve for the specified key.
+//
+// @param {String} $key
+//  The key name to be be retrieve form the map.
+//
+// @param {String} $name
+//  The name for the map.
+//
+// @param {Map} $fllback-map
+//  The fllback map, if specified key does not exist in first map.
+//
+// @return
+//  The retrieved value.
+//
+@function map-fetch($map, $key, $name, $fllback-map: null) {
+	@if map-has-key($map, $key) {
+		@return map-get($map, $key);
+	} @elseif map-has-key($fllback-map, $key) {
+		@return map-get($fllback-map, $key);
+	} @else {
+		@error '#{$name} `#{$key}` not found.\a\a  Available options: #{available-names($map)}\a\a';
+	}
+}
+
 // Math functions require for moudlar type scale.
 //
 @function pow($number, $exponent) {
@@ -642,185 +669,41 @@ $media-query-unit: em !default;
 	@return rgb($bm-red, $bm-green, $bm-blue);
 }
 
-// Borders
+// Functions to fecth values from their respective maps
 // -----------------------------------------------------------------------------
 
-// Returns the width of the specified border type.
-//
-// @param {String} $element
-//  The border element key.
-//
-// @return {Number}
-//  The width for the border.
-//
 @function border-width($element) {
-	$fetched-value: map-get($border-width-data, $element);
-
-	@if type-of($fetched-value) == number {
-		@return $fetched-value;
-	} @else {
-		@error 'Border width element `#{$element}` not found.\a\a  Available elements: #{available-names($border-width-data)}\a\a';
-	}
+	@return map-fetch($border-width-data, $element, 'Border width');
 }
 
-// Returns the border radius of the specified size.
-//
-// @param {String} $size
-//  The border radius’s size.
-//
-// @return {Number}
-//  The border radius value.
-//
-@function border-radius($size) {
-	$fetched-value: map-get($border-radius-data, $size);
-
-	@if type-of($fetched-value) == number {
-		@return $fetched-value;
-	} @else {
-		@error 'Border radius size `#{$size}` not found.\a\a Available variants: #{available-names($border-radius-data)}\a\a';
-	}
+@function border-radius($element) {
+	@return map-fetch($border-radius-data, $element, 'Border radius');
 }
 
-// Height
-// -----------------------------------------------------------------------------
-
-// Returns the baseline height of the specified element.
-//
-// @param {String} $element
-//  The height’s element.
-//
-// @return {Number}
-//  The baseline height value.
-//
 @function height($element) {
-	$fetched-value: map-get($height-data, $element);
-
-	@if type-of($fetched-value) == number {
-		@return $fetched-value;
-	} @else {
-		@error 'element `#{$element}` not found.\a\a Available variants: #{available-names($height-data)}\a\a';
-	}
+	@return map-fetch($height-data, $element, 'Height');
 }
 
-// Duration
-// -----------------------------------------------------------------------------
-
-// Returns the duration value for a given variant.
-//
-// @param {String} $variant - The key for the given variant.
-// @return {Number} The duration for the variant (in miliseconds).
-//
 @function duration($variant) {
-	$fetched-value: map-get($duration-data, $variant);
-
-	@if type-of($fetched-value) == number {
-		@return $fetched-value;
-	} @else {
-		@error 'Duration variant `#{$variant}` not found.\a\a Available variants: #{available-names($duration-data)}\a\a';
-	}
+	@return map-fetch($duration-data, $variant, 'Duration');
 }
 
-// Easing
-// -----------------------------------------------------------------------------
-
-// Returns the timing-function value for a given variant.
-//
-// @param {String} $variant
-//  The key for the given variant.
-//
-// @return {String}
-//  The cubic-bezier function (string) for the variant.
-//
 @function easing($variant) {
-	$fetched-value: map-get($easing-data, $variant);
-
-	@if type-of($fetched-value) == string {
-		@return $fetched-value;
-	} @else {
-		@error 'Easing variant `#{$variant}` not found.\a\a Available variants: #{available-names($easing-data)}\a\a';
-	}
+	@return map-fetch($easing-data, $variant, 'Easing');
 }
 
-// Shadows
-// -----------------------------------------------------------------------------
-
-// Returns the shadow for the specified depth
-//
-// @param {String} $depth
-//  The shadow’s depth.
-//
-// @return {List}
-//  The shadow value.
-//
 @function shadow($depth) {
-	$fetched-value: map-get($shadow-data, $depth);
-
-	@if type-of($fetched-value) == list {
-		@return $fetched-value;
-	} @else {
-		@error 'Shadow variant `#{$depth}` not found.\a\a Available variants: #{available-names($shadow-data)}\a\a';
-	}
+	@return map-fetch($shadow-data, $depth, 'Shadow');
 }
 
-// Typography
-// -----------------------------------------------------------------------------
-
-// Returns the font stack for a given family.
-//
-// @param {String} $family
-//  The key for the given family.
-//
-// @return {Number}
-//  The font stack for the family.
-//
 @function font-family($family) {
-	$fetched-value: map-get($font-family-data, $family);
-
-	@if $fetched-value != null {
-		@return $fetched-value;
-	} @else {
-		@error 'Font family `#{$family}` not found.\a\a Available font families: #{available-names($font-family-data)}\a\a';
-	}
+	@return map-fetch($font-family-data, $family, 'Font family');
 }
 
-// Returns the font weight for a given family.
-//
-// @param {String} $family
-//  The key for the given family.
-//
-// @return {Number}
-//  The font weight for the family.
-//
 @function font-weight($family) {
-	$fetched-value: map-get($font-weight-data, $family);
-
-	@if $fetched-value != null {
-		@return $fetched-value;
-	} @else {
-		@error 'Font weight `#{$family}` not found.\a\a Available font families: #{available-names($font-weight-data)}\a\a';
-	}
+	@return map-fetch($font-weight-data, $family, 'Font weight');
 }
 
-// Z-index
-// -----------------------------------------------------------------------------
-
-// Returns the z-index of the specified element.
-//
-// @param {String} $element
-//  The key for the element.
-//
-// @param {Map} $context
-//  The map in which to search for the element.
-//
-// @return {Number}
-//  The z-index for the element.
-//
 @function z-index($element) {
-	$index: map-get($z-index-data, $element);
-
-	@if $index {
-		@return $index;
-	} @else {
-		@error 'z-index `#{$element}` in `#{$z-index-data}` not found.';
-	}
+	@return map-fetch($z-index-data, $element, 'Z-index');
 }

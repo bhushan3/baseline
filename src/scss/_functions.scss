@@ -443,6 +443,58 @@
 	@return summation(ln-maclaurin, $value / pow(10, $ten-exp), 1, 100) + $ten-exp * $ln-ten;
 }
 
+// Helper function to easily use an SVG inline in CSS without encoding it to
+// base64, saving bytes. It also helps with browser support.
+//
+// A small function allowing skipping base64 encoding and simply pasting the SVG
+// markup right in the CSS.
+//
+// @param {String} $svg
+//  SVG image to encode
+//
+// @return {String}
+//  Encoded SVG data uri
+//
+@function svg-uri($svg) {
+	$encoded: '';
+	$slice: 2000;
+	$index: 0;
+	$loops: ceil(str-length($svg) / $slice);
+	@for $i from 1 through $loops {
+		$chunk: str-slice($svg, $index, $index + $slice - 1);
+		$chunk: str-replace($chunk, '\'', '"');
+		$chunk: str-replace($chunk, '<', '%3C');
+		$chunk: str-replace($chunk, '>', '%3E');
+		$chunk: str-replace($chunk, '&', '%26');
+		$chunk: str-replace($chunk, '#', '%23');
+		$encoded: #{$encoded}#{$chunk};
+		$index: $index + $slice;
+	}
+	@return url('data:image/svg+xml;charset=utf8,#{$encoded}');
+}
+
+// Replace all occurrences of the search string with the replacement string
+//
+// @param {String} $subject
+//  The string being searched and replaced on, otherwise known as the haystack.
+//
+// @param {String} $search
+//  The value being searched for, otherwise known as the needle.
+//
+// @param {String} $replace ('')
+//  The replacement value that replaces found search values.
+//
+// @return {String}
+//  A string with the replaced values.
+//
+@function str-replace($subject, $search, $replace: '') {
+	$index: str-index($subject, $search);
+	@if $index {
+		@return str-slice($subject, 1, $index - 1) + $replace + str-replace(str-slice($subject, $index + str-length($search)), $search, $replace);
+	}
+	@return $subject;
+}
+
 // Typography and Baseline
 // -----------------------------------------------------------------------------
 

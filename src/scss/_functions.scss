@@ -721,6 +721,28 @@ $media-query-unit: em !default;
 	@return rgb($bm-red, $bm-green, $bm-blue);
 }
 
+// Returns an appropriate color to ensure proper contrast
+//
+// @param {Color} $base
+//  The color to be tested.
+//
+// @return {Color}
+//  $dark if $base is light, $light is $base if dark.
+//
+@function color-yiq($base, $dark: #000, $light: #FFF, $threshold: 128) {
+	$r: red($base);
+	$g: green($base);
+	$b: blue($base);
+
+	$yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+	@if ($yiq >= $threshold) {
+		@return $dark;
+	} @else {
+		@return $light;
+	}
+}
+
 // Functions to fecth values from their respective maps
 // -----------------------------------------------------------------------------
 

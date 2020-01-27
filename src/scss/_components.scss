@@ -722,7 +722,7 @@
 			width: baseline('#{$size}:-#{border-width(input) * 2}');
 			height: baseline('#{$size}:-#{border-width(input) * 2}');
 			transition: opacity duration(base) easing(base);
-			border-radius: border-radius(input) - border-width(input);
+			border-radius: if(border-radius(input), border-radius(input) - border-width(input), null);
 			opacity: 0;
 			background-image: svg-uri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path style="fill:none;stroke:#FFF;stroke-width:4px;stroke-dashoffset:0;stroke-dasharray:29.7833385;" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path></svg>');
 			background-repeat: no-repeat;

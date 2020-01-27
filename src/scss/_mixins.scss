@@ -42,7 +42,7 @@
 		pointer-events: none;
 	}
 }
-@mixin button-color-variant($background, $background-hover: color-level($background, -2), $background-active: color-level($background, 2), $text: color-yiq($background), $text-hover: $text, $text-active: $text) {
+@mixin button-color-variant($background, $background-hover: $background, $background-active: $background, $text: color-yiq($background), $text-hover: $text, $text-active: $text) {
 	background-color: $background;
 	color: $text;
 	&:focus, &:hover {

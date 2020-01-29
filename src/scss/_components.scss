@@ -23,15 +23,7 @@
 //------------------------------------------------------------------------------
 .button {
 	@include button-base();
-	@include button-color-variant(color('primary'));
-	&--link {
-		background-color: transparent;
-		color: color('link');
-		&:focus, &:hover, &:active {
-			background-color: transparent;
-			text-decoration: underline;
-		}
-	}
+	@include button-variant(color(primary));
 	&--block {
 		display: block;
 		width: 100%;

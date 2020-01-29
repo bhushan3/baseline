@@ -894,7 +894,7 @@ textarea:focus {
 
 button, [type='button'], [type='reset'], [type='submit'] {
   height: 2.25rem;
-  padding: 0rem 1.125rem;
+  padding: 0rem 0.9rem;
   -webkit-transition: border-color 200ms cubic-bezier(0.64, 0, 0.35, 1), background-color 200ms cubic-bezier(0.64, 0, 0.35, 1), color 200ms cubic-bezier(0.64, 0, 0.35, 1);
   transition: border-color 200ms cubic-bezier(0.64, 0, 0.35, 1), background-color 200ms cubic-bezier(0.64, 0, 0.35, 1), color 200ms cubic-bezier(0.64, 0, 0.35, 1);
   border: 0;
@@ -908,11 +908,11 @@ button, [type='button'], [type='reset'], [type='submit'] {
 }
 
 button:focus, button:hover, [type='button']:focus, [type='button']:hover, [type='reset']:focus, [type='reset']:hover, [type='submit']:focus, [type='submit']:hover {
-  background-color: color-level("button-background", -2);
+  background-color: #721aec;
 }
 
 button:active, [type='button']:active, [type='reset']:active, [type='submit']:active {
-  background-color: color-level("button-background", 2);
+  background-color: #5800d3;
 }
 
 button:disabled, [type='button']:disabled, [type='reset']:disabled, [type='submit']:disabled {
@@ -1061,7 +1061,7 @@ embed:last-child, iframe:last-child, object:last-child {
           justify-content: center;
   height: 2.25rem;
   margin: 0;
-  padding: 0rem 1.125rem;
+  padding: 0em 0.9em;
   border: 0.125rem solid transparent;
   border-radius: 0.25rem;
   font-family: inherit;
@@ -1069,7 +1069,7 @@ embed:last-child, iframe:last-child, object:last-child {
   vertical-align: middle;
   cursor: pointer;
   background-color: #6200EA;
-  color: color-yiq(#6200EA);
+  color: #FFF;
 }
 
 .button:hover {
@@ -1084,13 +1084,24 @@ embed:last-child, iframe:last-child, object:last-child {
 }
 
 .button:focus, .button:hover {
-  background-color: color-level(#6200EA, -2);
-  color: color-yiq(#6200EA);
+  background-color: #721aec;
+  color: #FFF;
 }
 
 .button:active {
-  background-color: color-level(#6200EA, 2);
-  color: color-yiq(#6200EA);
+  background-color: #5800d3;
+  color: #FFF;
+}
+
+.button.button--link {
+  background-color: transparent;
+  color: #6200EA;
+}
+
+.button.button--link:focus, .button.button--link:hover, .button.button--link:active {
+  background-color: transparent;
+  color: #6200EA;
+  text-decoration: underline;
 }
 
 .button.button--outlined {
@@ -1102,13 +1113,13 @@ embed:last-child, iframe:last-child, object:last-child {
 .button.button--outlined:focus, .button.button--outlined:hover {
   border-color: transparent;
   background-color: #6200EA;
-  color: color-yiq(#6200EA);
+  color: #FFF;
 }
 
 .button.button--outlined:active {
   border-color: transparent;
-  background-color: color-level(#6200EA, 2);
-  color: color-yiq(#6200EA);
+  background-color: #5800d3;
+  color: #FFF;
 }
 
 .button.button--text {
@@ -1124,16 +1135,6 @@ embed:last-child, iframe:last-child, object:last-child {
 .button.button--text:active {
   background-color: rgba(98, 0, 234, 0.26);
   color: #6200EA;
-}
-
-.button--link {
-  background-color: transparent;
-  color: #6200EA;
-}
-
-.button--link:focus, .button--link:hover, .button--link:active {
-  background-color: transparent;
-  text-decoration: underline;
 }
 
 .button--block {

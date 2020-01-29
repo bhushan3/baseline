@@ -645,46 +645,40 @@ $media-query-unit: em !default;
 // Colors
 // -----------------------------------------------------------------------------
 
-// Returns the color value for a given color name and group.
+// Request a theme color level
 //
-// @param {String} $color
-//  The color’s hue.
+// @param {Color|String} $color
+//  Color or the name of the color from the $color-data map.
 //
-// @param {String} $variation
-//  The darkness/lightness of the color.
+// @param {Number} $level
+//  Required color level.
 //
-// @param {Color} $for-background
-//  The background color on which this color will appear. Applies a multiply
-//  filter to ensure appropriate contrast.
+// @returns {Color}
+//  Color level of specified unit color.
 //
-// @return {Color} The color value.
-//
-@function color($color, $variation: null, $for-background: null) {
-	$fetched-color: false;
-	@if map-has-key($color-data, $color) {
-		$fetched-hue: map-get($color-data, $color);
-		@if $variation == null {
-			@if $fetched-hue == null {
-				@return null;
-			} @elseif type-of($fetched-hue) == color {
-				$fetched-color: $fetched-hue;
-			} @elseif map-has-key($fetched-hue, base) {
-				$fetched-color: map-get($fetched-hue, base);
-			} @elseif map-has-key($fetched-hue, '500') {
-				$fetched-color: map-get($fetched-hue, '500');
-			}
-		} @elseif type-of($fetched-hue) == map {
-			$variation: quote($variation);
-			@if map-has-key($fetched-hue, $variation) {
-				$fetched-color: map-get($fetched-hue, $variation);
-			}
-		}
+@function color-level($color: primary, $level: 0) {
+	@if type-of($color) != color {
+		$color: color($color);
 	}
-	@if type-of($fetched-color) == color {
-		@return $fetched-color;
-	} @else {
-		@error "\a Color `#{$color}#{if($variation, ' (' + $variation + ')', '')}` not found.\a\a Available options: #{available-names($color-data)}\a\a";
+	$base: if($level > 0, #000000, #FFFFFF);
+	$level: abs($level);
+	$weight: $level * 5%;
+	@if ($weight > 100%) {
+		$weight: 100%;
 	}
+	@return mix($base, $color, $weight);
+}
+@function color-contrasted-level($color: 'primary', $level: 0) {
+	@if type-of($color) != color {
+		$color: color-contrasted($color);
+	}
+	$base: if($level > 0, #000000, #FFFFFF);
+	$level: abs($level);
+	$weight: $level * 5%;
+	@if ($weight > 100%) {
+		$weight: 100%;
+	}
+	@return mix($base, $color, $weight);
 }
 
 // Returns an appropriate color to ensure proper contrast
@@ -695,7 +689,7 @@ $media-query-unit: em !default;
 // @return {Color}
 //  $dark if $base is light, $light is $base if dark.
 //
-@function color-yiq($base, $dark: #000, $light: #FFF, $threshold: 128) {
+@function color-yiq($base, $dark: #000, $light: #FFF, $threshold: 131) {
 	$r: red($base);
 	$g: green($base);
 	$b: blue($base);
@@ -711,6 +705,14 @@ $media-query-unit: em !default;
 
 // Functions to fecth values from their respective maps
 // -----------------------------------------------------------------------------
+
+@function color($color) {
+	@return map-fetch($color-data, $color, 'Color');
+}
+
+@function color-contrasted($color) {
+	@return map-fetch($color-contrasted-data, $color, 'Color contrasted', $fllback-map: $color-data);
+}
 
 @function border-width($element) {
 	@return map-fetch($border-width-data, $element, 'Border width');

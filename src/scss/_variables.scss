@@ -65,6 +65,13 @@ $color-data: (
 	button-disabled-text: map-get(map-get($color-palette, 'black'), '400'),
 );
 
+$color-contrasted-data: (
+	border: map-get(map-get($color-palette, 'white'), '200'),
+	text-primary: map-get(map-get($color-palette, 'white'), '900'),
+	text-secondary: map-get(map-get($color-palette, 'white'), '800'),
+	text-tertiary: map-get(map-get($color-palette, 'white'), '500'),
+);
+
 // Border
 // -----------------------------------------------------------------------------
 $border-width-data: (

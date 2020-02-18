@@ -31,7 +31,7 @@ $breakpoint-data: (
 $color-data: (
 	primary: #6200EA,
 	background: #FFFFFF,
-	border: map-get(map-get($color-palette, 'black'), '200'),
+	border: map-get(map-get($color-palette, 'black'), '300'),
 	text-primary: map-get(map-get($color-palette, 'black'), '900'),
 	text-secondary: map-get(map-get($color-palette, 'black'), '800'),
 	text-tertiary: map-get(map-get($color-palette, 'black'), '500'),
@@ -41,13 +41,13 @@ $color-data: (
 
 	input-background: #FFFFFF,
 	input-text: map-get(map-get($color-palette, 'black'), '800'),
-	input-placeholder: map-get(map-get($color-palette, 'black'), '400'),
-	input-border: map-get(map-get($color-palette, 'black'), '200'),
+	input-placeholder: map-get(map-get($color-palette, 'black'), '500'),
+	input-border: map-get(map-get($color-palette, 'black'), '300'),
 
 	input-hover-background: null,
 	input-hover-text: null,
-	input-hover-placeholder: map-get(map-get($color-palette, 'black'), '500'),
-	input-hover-border: map-get(map-get($color-palette, 'black'), '300'),
+	input-hover-placeholder: map-get(map-get($color-palette, 'black'), '600'),
+	input-hover-border: map-get(map-get($color-palette, 'black'), '400'),
 
 	input-focus-background: null,
 	input-focus-text: null,
@@ -95,7 +95,7 @@ $border-radius-data: (
 
 $height-data: (
 	button: 1.5,
-	input: 1.5,
+	input: 2,
 );
 
 // Duration

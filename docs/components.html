@@ -10,7 +10,218 @@
 	</head>
 	<body>
 		<div class='container'>
-			<h1>Baseline</h1>
+			<header>
+				<h1>Baseline</h1>
+			</header>
+			<nav>
+				<ul>
+					<li>
+						<a href='#textfield'>Textfields</a>
+						<ul>
+							<li><a href='#textfield__default'>Default</a></li>
+							<li><a href='#textfield__filled'>Filled</a></li>
+							<li><a href='#textfield__outlined'>Outlined</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href='#checkboxes'>Checkboxes</a>
+					</li>
+					<li>
+						<a href='#radio-buttons'>Radio Buttons</a>
+					</li>
+					<li>
+						<a href='#button'>Buttons</a>
+						<ul>
+							<li><a href='#button__default'>Default</a></li>
+							<li><a href='#button__link'>Link</a></li>
+							<li><a href='#button__outlined'>Outlined</a></li>
+							<li><a href='#button__text'>Text</a></li>
+							<li><a href='#button__sizes'>Sizes</a></li>
+							<li><a href='#button__rounded'>Rounded</a></li>
+							<li><a href='#button__circel'>Circle</a></li>
+							<li><a href='#button__square'>Square</a></li>
+							<li><a href='#button__icons'>Icons</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<main>
+				<section id='textfield'>
+					<header><h3>Textfields</h3></header>
+					<article id='textfield__default'>
+						<header><h6>Default</h6></header>
+						<div>
+							<div class='textfield textfield--with-leading-icon1 textfield--with-trailing-icon1'>
+								<input class='textfield__input' id='input-textfield' type='text' />
+								<label class='textfield__mask' for='input-textfield'>
+									<div class='textfield__mask-leading'></div>
+									<div class='textfield__mask-middle'><span class='textfield__mask-label'>Username</span></div>
+									<div class='textfield__mask-trailing'></div>
+								</label>
+								<!-- <span class='textfield__icon material-icons'>events</span> -->
+								<!-- <span class='textfield__icon textfield__icon--password-visibility-toggle material-icons' tabindex='0' role='button'>visibility_off</span> -->
+							</div>
+							<br>
+							<div class='textfield-filled textfield-filled--with-leading-icon1 textfield-filled--with-trailing-icon1'>
+								<input class='textfield-filled__input' id='input-textfield-filled' placeholder1='Username' type='text' />
+								<label class='textfield-filled__mask' for='input-textfield-filled'>
+									<div class='textfield-filled__mask-leading'></div>
+									<div class='textfield-filled__mask-middle'><span class='textfield-filled__mask-label'>Username</span></div>
+									<div class='textfield-filled__mask-trailing'></div>
+								</label>
+								<!-- <span class='textfield-filled__icon material-icons'>events</span> -->
+								<!-- <span class='textfield-filled__icon textfield-filled__icon--password-visibility-toggle material-icons' tabindex='0' role='button'>visibility_off</span> -->
+							</div>
+							<br>
+							<div class='textfield-outlined textfield-outlined--with-leading-icon1 textfield-outlined--with-trailing-icon1 textfield-outlined--rounded1'>
+								<input class='textfield-outlined__input' id='input-textfield-outlined' type='text' />
+								<label class='textfield-outlined__mask' for='input-textfield-outlined'>
+									<div class='textfield-outlined__mask-leading'></div>
+									<div class='textfield-outlined__mask-middle'><span class='textfield-outlined__mask-label'>Username</span></div>
+									<div class='textfield-outlined__mask-trailing'></div>
+								</label>
+								<!-- <span class='textfield-outlined__icon material-icons'>event</span> -->
+								<!-- <span class='textfield-outlined__icon textfield-outlined__icon--password-visibility-toggle material-icons' tabindex='0' role='button'>visibility_off</span> -->
+							</div>
+
+						</div>
+					</article>
+				</section>
+				<section id='checkboxes'>
+					<header><h3>Checkboxes</h3></header>
+					<article>
+						<div>
+							<label class='checkbox' for='checkbox-1'>
+								<input class='checkbox__input' id='checkbox-1' type='checkbox'>
+								<div class='checkbox__text'>Checkbox</div>
+							</label>
+							<br>
+							<label class='checkbox' for='checkbox-2'>
+								<input class='checkbox__input' type='checkbox' id='checkbox-2' checked>
+								<div class='checkbox__text'>Checkbox</div>
+							</label>
+							<br>
+							<label class='checkbox' for='checkbox-3'>
+								<input class='checkbox__input' type='checkbox' id='checkbox-3' disabled>
+								<div class='checkbox__text'>Checkbox</div>
+							</label>
+							<br>
+							<label class='checkbox' for='checkbox-4'>
+								<input class='checkbox__input' type='checkbox' id='checkbox-4' checked disabled>
+								<div class='checkbox__text'>Checkbox</div>
+							</label>
+						</div>
+					</article>
+				</section>
+				<section id='radio-buttons'>
+					<header><h3>Radio Buttons</h3></header>
+					<article>
+						<div>
+							<label class='radio' for='radio-1'>
+								<input class='radio__input' type='radio' name='radio' id='radio-1'>
+								<div class='radio__text'>Radio</div>
+							</label>
+							<br>
+							<label class='radio' for='radio-2'>
+								<input class='radio__input' type='radio' name='radio' id='radio-2'>
+								<div class='radio__text'>Radio</div>
+							</label>
+							<br>
+							<label class='radio' for='radio-3'>
+								<input class='radio__input' type='radio' name='radio' id='radio-3' disabled>
+								<div class='radio__text'>Radio</div>
+							</label>
+							<br>
+							<label class='radio' for='radio-4'>
+								<input class='radio__input' type='radio' name='radio' id='radio-4' disabled checked>
+								<div class='radio__text'>Radio</div>
+							</label>
+						</div>
+					</article>
+				</section>
+				<section id='button'>
+					<header><h3>Buttons</h3></header>
+					<article id='button__default'>
+						<header><h6>Default</h6></header>
+						<div>
+							<input type='button' class='button' value='Button' />
+							<button class='button'>Button</button>
+							<a href='#' class='button'>Button</a>
+						</div>
+					</article>
+					<article id='button__link'>
+						<header><h6>Link</h6></header>
+						<div>
+							<input type='button' class='button button--link' value='Button' />
+							<button class='button button--link'>Button</button>
+							<a href='#' class='button button--link'>Button</a>
+						</div>
+					</article>
+					<article id='button__outlined'>
+						<header><h6>Outlined</h6></header>
+						<div>
+							<input type='button' class='button button--outlined' value='Button' />
+							<button class='button button--outlined'>Button</button>
+							<a href='#' class='button button--outlined'>Button</a>
+						</div>
+					</article>
+					<article id='button__text'>
+						<header><h6>Text</h6></header>
+						<div>
+							<input type='button' class='button button--text' value='Button' />
+							<button class='button button--text'>Button</button>
+							<a href='#' class='button button--text'>Button</a>
+						</div>
+					</article>
+					<article id='button__sizes'>
+						<header><h6>Sizes</h6></header>
+						<div>
+							<button class='button button--h1'>Button</button>
+							<br><br>
+							<button class='button button--h2'>Button</button>
+							<br><br>
+							<button class='button button--h3'>Button</button>
+							<br><br>
+							<button class='button button--h4'>Button</button>
+							<br><br>
+							<button class='button button--h5'>Button</button>
+							<br><br>
+							<button class='button button--h6'>Button</button>
+							<br><br>
+							<button class='button button--small'>Button</button>
+							<br><br>
+							<button class='button button--xsmall'>Button</button>
+						</div>
+					</article>
+					<article id='button__rounded'>
+						<header><h6>Rounded</h6></header>
+						<div>
+							<button class='button button--rounded-left'>Button</button>
+							<button class='button button--rounded'>Button </button>
+							<button class='button button--rounded-right'>Button</button>
+						</div>
+					</article>
+					<article id='button__circel'>
+						<header><h6>Circle</h6></header>
+						<div>
+							<button class='button button--rounded-circle'>🔥</button>
+						</div>
+					</article>
+					<article id='button__square'>
+						<header><h6>Square</h6></header>
+						<div>
+							<button class='button button--square'>🔥 </button>
+						</div>
+					</article>
+					<article id='button__icons'>
+						<header><h6>Icons</h6></header>
+						<div>
+							<button class='button button--icon-left'>🔥 Button</button>
+							<button class='button button--icon-right'>Button 🔥</button>
+						</div>
+					</article>
+				</section>
+			</main>
 		</div>
 		<script src='../dist/baseline.js'></script>
 		<script src='docs.js'></script>

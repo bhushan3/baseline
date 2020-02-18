@@ -104,10 +104,10 @@
 		border-radius: 50%;
 	}
 	&--icon-left {
-		padding-left: baseline(height(button) / 2.5, em);
+		padding-left: baseline(height(button) / 3.5, em);
 	}
 	&--icon-right {
-		padding-right: baseline(height(button) / 2.5, em);
+		padding-right: baseline(height(button) / 3.5, em);
 	}
 }
 
@@ -149,9 +149,10 @@
 		min-width: baseline(10);
 		padding-right: 0;
 		padding-left: 0;
-		transition: padding duration(base) easing(base);
+		transition: all duration(base) easing(base);
 		border: 0;
 		border-bottom: solid border-width(input) transparent;
+		background-color: transparent;
 		vertical-align: middle;
 		&:disabled, &[readonly] {
 			border-color: transparent;
@@ -211,7 +212,7 @@
 		left: 0;
 		&-leading, &-middle, &-trailing {
 			display: inline-block;
-			transition: border-color duration(base) easing(base), padding duration(base) easing(base);
+			transition: all duration(base) easing(base);
 			border: 0;
 			border-bottom: solid border-width(input) color('input-border');
 			line-height: baseline('#{height(input)}:-#{border-width(input)}');
@@ -222,7 +223,7 @@
 		&-label {
 			display: inline-block;
 			transform: translateY(0%);
-			transition: transform duration(base) easing(base), color duration(base) easing(base), font-size duration(base) easing(base);
+			transition: all duration(base) easing(base);
 			color: color('input-placeholder');
 			cursor: text;
 			pointer-events: none;
@@ -234,7 +235,7 @@
 		top: 0;
 		// width: 1em;
 		// transform: translateY(-50%);
-		transition: color duration(base) easing(base);
+		transition: all duration(base) easing(base);
 		color: color('input-placeholder');
 		// font-size: font-size(2);
 		line-height: baseline('#{height(input)}:-#{border-width(input)}');
@@ -305,7 +306,7 @@
 }
 .textfield-filled {
 	$block: &;
-	$height: height(input) + 0.5;
+	$height-input: height(input) + 0.5;
 
 	display: inline-block;
 	position: relative;
@@ -315,25 +316,38 @@
 		position: relative;
 		z-index: 1;
 		min-width: baseline(10);
-		height: baseline($height);
-		padding: baseline($height / 3.25 $height / 3 0);
+		height: baseline($height-input);
+		padding: baseline($height-input / 3.25 $height-input / 3 0);
 		border: 0;
 		border-bottom: solid border-width(input) transparent;
+		background-color: transparent;
 		vertical-align: middle;
+		&:hover {
+			border-color: transparent;
+			+ #{$block}__mask {
+				border-bottom-color: color(input-hover-border);
+				#{$block}__mask-label {
+					color: color(input-hover-placeholder);
+				}
+			}
+			~ #{$block}__icon {
+				color: color(input-hover-placeholder);
+			}
+		}
 		&:focus {
 			+ #{$block}__mask {
-				border-bottom-color: color('input-focus-border');
+				border-bottom-color: color(input-focus-border);
 				#{$block}__mask-label {
-					color: color('input-focus-border');
+					color: color(input-focus-border);
 					font-size: font-size(-1);
-					line-height: baseline($height / 1.75);
+					line-height: baseline($height-input / 1.75);
 				}
 			}
 		}
 	}
 	textarea#{$block}__input {
-		height: baseline($height * 2);
-		padding: baseline($height / 2.25 $height / 3);
+		height: baseline($height-input * 2);
+		padding: baseline($height-input / 2.25 $height-input / 3);
 	}
 	&__mask {
 		display: flex;
@@ -343,16 +357,17 @@
 		right: 0;
 		bottom: 0;
 		left: 0;
-		padding: baseline(0 $height / 3);
-		border-bottom: solid border-width(input) color('input-border');
-		background: rgba-black('100');
+		padding: baseline(0 $height-input / 3);
+		transition: all duration(base) easing(base);
+		border-bottom: solid border-width(input) color(input-border);
+		background-color: map-get(map-get($color-palette, 'black'), '100');
 		&-label {
 			display: inline-block;
-			height: baseline($height);
+			height: baseline($height-input);
 			transform: translateY(0%);
-			transition: line-height duration(base) easing(base), color duration(base) easing(base), font-size duration(base) easing(base);
-			color: color('input-placeholder');
-			line-height: baseline($height);
+			transition: all duration(base) easing(base);
+			color: color(input-placeholder);
+			line-height: baseline($height-input);
 			white-space: nowrap;
 			cursor: text;
 			pointer-events: none;
@@ -364,43 +379,43 @@
 		top: 0;
 		width: baseline(0.75);
 		// transform: translateY(-50%);
-		transition: color duration(base) easing(base);
+		transition: all duration(base) easing(base);
 		color: color('input-placeholder');
 		// font-size: font-size(1);
-		line-height: baseline('#{$height}:-#{border-width(input)}');
+		line-height: baseline('#{$height-input}:-#{border-width(input)}');
 		text-align: center;
 		&[role='button'] {
 			cursor: pointer;
 		}
 		&:nth-of-type(1) {
-			left: baseline($height / 4);
+			left: baseline($height-input / 4);
 		}
 		&:nth-of-type(2) {
-			right: baseline($height / 4);
+			right: baseline($height-input / 4);
 		}
 	}
 	&--with-floating-label, &--with-value {
 		#{$block}__mask {
 			#{$block}__mask-label {
 				font-size: font-size(-1);
-				line-height: baseline($height / 1.75);
+				line-height: baseline($height-input / 1.75);
 			}
 		}
 	}
 	&--with-leading-icon {
 		input#{$block}__input, textarea#{$block}__input {
-			padding-left: baseline($height / 4 + 1.125);
+			padding-left: baseline($height-input / 4 + 1.125);
 		}
 		#{$block}__mask {
-			padding-left: baseline($height / 4 + 1.125);
+			padding-left: baseline($height-input / 4 + 1.125);
 		}
 	}
 	&--with-trailing-icon {
 		input#{$block}__input, textarea#{$block}__input {
-			padding-right: baseline($height / 4 + 1.125);
+			padding-right: baseline($height-input / 4 + 1.125);
 		}
 		#{$block}__mask {
-			padding-right: baseline($height / 4 + 1.125);
+			padding-right: baseline($height-input / 4 + 1.125);
 		}
 	}
 }
@@ -481,7 +496,7 @@
 		left: 0;
 		&-leading, &-middle, &-trailing {
 			display: inline-block;
-			transition: border-color duration(base) easing(base), padding duration(base) easing(base);
+			transition: all duration(base) easing(base);
 			border: solid border-width(input) color('input-border');
 			line-height: baseline('#{height(input)}:-#{border-width(input) * 2}');
 		}
@@ -505,7 +520,7 @@
 			display: inline-block;
 			padding: 0 baseline(height(input) / 12);
 			transform: translateY(0%);
-			transition: transform duration(base) easing(base), color duration(base) easing(base), font-size duration(base) easing(base);
+			transition: all duration(base) easing(base);
 			color: color('input-placeholder');
 			cursor: text;
 			pointer-events: none;
@@ -517,12 +532,13 @@
 		top: 0;
 		// width: 1em;
 		// transform: translateY(-50%);
-		transition: color duration(base) easing(base);
+		transition: all duration(base) easing(base);
 		color: color('input-placeholder');
 		// font-size: font-size(2);
 		line-height: baseline(height(input));
 		text-align: center;
 		&:nth-of-type(1) {
+			left: 0;
 			margin-left: baseline(height(input) / 3);
 			border-left: border-width(input) solid transparent;
 		}
@@ -641,7 +657,7 @@
 			left: 0;
 			width: baseline($size);
 			height: baseline($size);
-			transition: border duration(base) easing(base), transform duration(base) easing(base), opacity duration(base) easing(base);
+			transition: all duration(base) easing(base);
 			border-radius: 50%;
 		}
 		&::before {

@@ -231,7 +231,7 @@ form {
 	}
 }
 label {
-	vertical-align: middle;
+	vertical-align: top;
 	cursor: pointer;
 }
 input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [type='email'], [type='month'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='time'], [type='url'], [type='week'] {
@@ -246,7 +246,7 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 	color: color('input-text');
 	font-size: font-size(0);
 	line-height: baseline('#{height(input)}:-#{border-width(input) * 2}');
-	vertical-align: middle; // Vertical alignment fix
+	vertical-align: top; // Vertical alignment fix
 	caret-color: color('primary');
 	&:hover {
 		border-color: color('input-hover-border');
@@ -335,10 +335,10 @@ input:not([type]), [type='date'], [type='datetime'], [type='datetime-local'], [t
 	}
 }
 [type='range'] {
-	vertical-align: middle;
+	vertical-align: top;
 }
 // progress {
-// 	vertical-align: baseline;
+// 	vertical-align: top;
 // }
 select {
 	display: inline-block;
@@ -396,7 +396,7 @@ textarea {
 	background-color: color('input-background');
 	color: color('input-text');
 	line-height: baseline(1);
-	vertical-align: middle; // Vertical alignment fix
+	vertical-align: top; // Vertical alignment fix
 	resize: vertical;
 	&:disabled, &[readonly] {
 		border-color: color('input-disabled-border');
@@ -425,7 +425,7 @@ button, [type='button'], [type='reset'], [type='submit'] {
 	color: color('button-text');
 	font-size: font-size(0);
 	line-height: height(button);
-	vertical-align: middle; // Vertical alignment fix
+	vertical-align: top; // Vertical alignment fix
 	cursor: pointer;
 	&:focus, &:hover {
 		background-color: color-level('button-background', -2);
@@ -457,11 +457,11 @@ figure {
 }
 img {
 	max-width: 100%;
-	vertical-align: middle;
+	vertical-align: top;
 }
 svg {
 	overflow: hidden;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 // Audio / Video
@@ -525,7 +525,6 @@ table {
 td, th {
 	padding: baseline(0.25);
 	border-top: border-width(td) solid color('border');
-	vertical-align: top;
 	&:first-child {
 		padding-left: 0;
 	}
@@ -538,7 +537,6 @@ th {
 	thead & {
 		padding-bottom: baseline(0.25);
 		border-bottom: border-width(th) solid color('border');
-		vertical-align: bottom;
 	}
 }
 caption {

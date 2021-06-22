@@ -398,6 +398,7 @@ textarea {
 	line-height: baseline(1);
 	vertical-align: top; // Vertical alignment fix
 	resize: vertical;
+	caret-color: color('input-text');
 	&:disabled, &[readonly] {
 		border-color: color('input-disabled-border');
 		background-color: color('input-disabled-background');
